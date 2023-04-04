@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:16:16 by maddou            #+#    #+#             */
-/*   Updated: 2023/04/02 17:23:39 by maddou           ###   ########.fr       */
+/*   Updated: 2023/04/04 13:47:48 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 #include <unistd.h>
 # include <stdlib.h>
 #include <sys/time.h>
+
+typedef struct mutex_s
+{
+    pthread_mutex_t mut;
+} mutex_t;
 
 typedef struct thread_s
 {
@@ -37,13 +42,11 @@ typedef struct thread_s
     long long timestamp;
     pthread_t th;
     pthread_mutex_t mutex;
-   
+    mutex_t *mt;
     pthread_mutex_t *lmutex;
 } thread_t;
-typedef struct mutex_s
-{
-    pthread_mutex_t mtx;
-} mutex_t;
+
+
 
 int     ft_atoi(const char *str);
 int check_arg(char *av[], int ac);

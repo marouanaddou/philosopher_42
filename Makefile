@@ -1,5 +1,5 @@
 CC = GCC
-#f =  -fsanitize=thread -g
+f =  -fsanitize=thread -g
 CFLAGC = -Wall -Wextra -Werror
 RM = rm -rf
 SRC = libft.c philosopher.c main.c data_philo.c 
@@ -10,7 +10,7 @@ NAME = philo
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC)  $(CFLAGC) $(OBJ) -o $@
+	$(CC)   $(CFLAGC) $(OBJ) -o $@
 %.o : %.c
 	$(CC)  -Wall -Wextra -Werror -c $^ -o $@
 
