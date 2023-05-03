@@ -10,9 +10,9 @@ NAME = philo
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC)  $(THREAD) $(CFLAGC) $(OBJ) -o $@
+	$(CC) $(THREAD) $(CFLAGC) $(OBJ) -o $@
 %.o : %.c
-	$(CC)  $(THREAD) -Wall -Wextra -Werror -c $^ -o $@
+	$(CC) $(THREAD) -Wall -Wextra -Werror -c $^ -o $@
 
 clean :
 	$(RM) $(OBJ) 

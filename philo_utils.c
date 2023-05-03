@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:55:30 by maddou            #+#    #+#             */
-/*   Updated: 2023/04/07 18:27:53 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/03 20:16:51 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print(char *str, t_thread *thread)
 	pthread_mutex_lock(&thread->mt->mut);
 	if (thread->die == 0)
 	{
-		printf("%lld %d %s\n", calcultime() - thread->start, thread->i, str);
+		printf("%lld %d %s |||%d\n", calcultime() - thread->start, thread->i, str,thread->die);
 		pthread_mutex_unlock(&thread->mt->mut);
 	}
 	else
@@ -67,9 +67,11 @@ void	print_data(t_thread *thread)
 
 int	check_die(t_thread *thread, char **av, int i)
 {
+	if (ft_atoi(av[1]) == 1)
+		i = 0;
 	pthread_mutex_lock(&thread[i].mt->mut);
 	if (calcultime() - thread[i].start_programe >= ft_atoi(av[2]))
-	{
+	 {
 		pthread_mutex_unlock(&thread[i].mt->mut);
 		printf("%lld %d die\n", calcultime() - thread[i].start_programe, i + 1);
 		i = 0;
