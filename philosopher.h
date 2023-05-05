@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:16:16 by maddou            #+#    #+#             */
-/*   Updated: 2023/04/07 18:31:01 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/05 21:09:48 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct mutex_s
 {
 	pthread_mutex_t	mut;
+	int				die;
 }					t_mutex;
 
 typedef struct thread_s
@@ -52,7 +53,6 @@ int					check_arg(char *av[], int ac);
 void				*start_routine(void *philo);
 long long			calcultime(void);
 
-// void				data(thread_t *thread, int i, char *av[], int ac);
 void				mutex_data(t_thread *thread);
 
 void				register_data(t_thread *thread, char *av[], int ac,

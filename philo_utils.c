@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:55:30 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/03 20:16:51 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/05 18:54:21 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	cont_eat(t_thread *thread)
 void	print(char *str, t_thread *thread)
 {
 	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->die == 0)
+	if (thread->mt->die == 0)
 	{
-		printf("%lld %d %s |||%d\n", calcultime() - thread->start, thread->i, str,thread->die);
+		printf("%lld %d %s\n", calcultime() - thread->start, thread->i, str);
 		pthread_mutex_unlock(&thread->mt->mut);
 	}
 	else
@@ -47,7 +47,7 @@ void	print(char *str, t_thread *thread)
 void	print_data(t_thread *thread)
 {
 	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->die == 0)
+	if (thread->mt->die == 0)
 	{
 		pthread_mutex_unlock(&thread->mt->mut);
 		print("is sleeping", thread);
@@ -56,7 +56,7 @@ void	print_data(t_thread *thread)
 	else
 		pthread_mutex_unlock(&thread->mt->mut);
 	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->die == 0)
+	if (thread->mt->die == 0)
 	{
 		pthread_mutex_unlock(&thread->mt->mut);
 		print("is thinking", thread);
@@ -71,17 +71,12 @@ int	check_die(t_thread *thread, char **av, int i)
 		i = 0;
 	pthread_mutex_lock(&thread[i].mt->mut);
 	if (calcultime() - thread[i].start_programe >= ft_atoi(av[2]))
-	 {
+	{
+		pthread_mutex_unlock(&thread[i].mt->mut);
+		pthread_mutex_lock(&thread[i].mt->mut);
+			thread[i].mt->die = 1;
 		pthread_mutex_unlock(&thread[i].mt->mut);
 		printf("%lld %d die\n", calcultime() - thread[i].start_programe, i + 1);
-		i = 0;
-		while (i < ft_atoi(av[1]))
-		{
-			pthread_mutex_lock(&thread[i].mt->mut);
-			thread[i].die = 1;
-			pthread_mutex_unlock(&thread[i].mt->mut);
-			i++;
-		}
 		return (0);
 	}
 	pthread_mutex_unlock(&thread[i].mt->mut);

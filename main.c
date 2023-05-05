@@ -6,12 +6,11 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 17:37:35 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/03 19:59:20 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/05 21:02:15 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-#include <pthread.h>
 
 long long	calcultime(void)
 {
@@ -27,7 +26,7 @@ void	*start_routine(void *philo)
 {
 	t_thread	*thread;
 
-	thread = (t_thread *)philo;	
+	thread = (t_thread *)philo;
 	while (1)
 		mutex_data(thread);
 	return (0);
@@ -58,17 +57,18 @@ void	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mt)
 		i++;
 	}
 	i = 0;
-	while(i < ft_atoi(av[1]) - 1)
+	while (i < ft_atoi(av[1]) - 1)
 		pthread_detach(thread[i++].th);
 }
 
 int	main(int ac, char *av[])
 {
 	t_thread		thread[250];
-	static t_mutex	mt;
+	t_mutex			mt;
 	int				i;
 
 	i = 0;
+	mt.die = 0;
 	if (ac == 5 || ac == 6)
 	{
 		if (check_arg(av, ac) == 0)

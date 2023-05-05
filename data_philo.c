@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:10:07 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/03 20:16:11 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/05 21:04:31 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	register_data(t_thread *thread, char *av[], int ac, t_mutex *mt)
 		thread[i].i = i + 1;
 		thread[i].lmutex = &thread[(i + 1) % ft_atoi(av[1])].mutex;
 		thread[i].mt = mt;
-		thread[i].die = 0;
 		thread[i].cont_to_eat = 0;
 		pthread_create(&thread[i].th, NULL, &start_routine, &thread[i]);
 		usleep(60);
@@ -58,7 +57,7 @@ void	mutex_data(t_thread *thread)
 	pthread_mutex_lock(&thread->mutex);
 	pthread_mutex_lock(thread->lmutex);
 	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->die == 0)
+	if (thread->mt->die == 0)
 	{
 		pthread_mutex_unlock(&thread->mt->mut);
 		print("has taken a fork", thread);
