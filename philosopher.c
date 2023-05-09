@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:06:41 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/09 12:04:17 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:31:19 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int	check_arg(char *av[], int ac)
 		printf("error\n");
 		return (0);
 	}
+	
 	return (1);
 }
