@@ -6,17 +6,17 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 16:51:31 by maddou            #+#    #+#             */
-/*   Updated: 2023/04/07 18:14:42 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/08 21:53:55 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;
-	int	nb;
+	long long nb;
 
 	i = 0;
 	sign = 1;

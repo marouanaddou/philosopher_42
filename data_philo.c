@@ -6,13 +6,13 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:10:07 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/05 21:04:31 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/09 12:05:24 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	register_data(t_thread *thread, char *av[], int ac, t_mutex *mt)
+void	register_data(t_thread *thread, char *av[], int ac, t_mutex *mtx)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ void	register_data(t_thread *thread, char *av[], int ac, t_mutex *mt)
 		thread[i].start_programe = calcultime();
 		thread[i].i = i + 1;
 		thread[i].lmutex = &thread[(i + 1) % ft_atoi(av[1])].mutex;
-		thread[i].mt = mt;
+		thread[i].mt = mtx;
 		thread[i].cont_to_eat = 0;
 		pthread_create(&thread[i].th, NULL, &start_routine, &thread[i]);
 		usleep(60);
@@ -39,10 +39,8 @@ void	register_data(t_thread *thread, char *av[], int ac, t_mutex *mt)
 
 void	time_usleep(int time)
 {
-	int			i;
 	long long	start;
 
-	i = 1;
 	start = calcultime();
 	while (1)
 	{

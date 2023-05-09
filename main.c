@@ -6,12 +6,11 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 17:37:35 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/06 16:52:47 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/09 12:05:43 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-#include <pthread.h>
 
 long long	calcultime(void)
 {
@@ -33,11 +32,11 @@ void	*start_routine(void *philo)
 	return (0);
 }
 
-void	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mt)
+void	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mtx)
 {
 	int	i;
 
-	register_data(thread, av, ac, mt);
+	register_data(thread, av, ac, mtx);
 	i = 0;
 	while (1)
 	{
@@ -65,19 +64,19 @@ void	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mt)
 int	main(int ac, char *av[])
 {
 	t_thread		thread[250];
-	t_mutex			mt;
+	t_mutex			mtx;
 	int				i;
 
 	i = 0;
-	mt.die = 0;
+	mtx.die = 0;
 	if (ac == 5 || ac == 6)
 	{
-		if (check_arg(av, ac) == 0)
+		if (check_arg(av, ac) == 0 || ft_atoi(av[1]) > 200)
 			return (0);
 		while (i < ft_atoi(av[1]))
 			pthread_mutex_init(&thread[i++].mutex, NULL);
-		pthread_mutex_init(&mt.mut, NULL);
-		creat_philosopher(thread, av, ac, &mt);
+		pthread_mutex_init(&mtx.mut, NULL);
+		creat_philosopher(thread, av, ac, &mtx);
 		i = 0;
 		while(i < ft_atoi(av[1]))
 			pthread_mutex_destroy(&thread[i++].mutex);
