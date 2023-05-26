@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:55:30 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/06 16:51:12 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/26 20:22:03 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	cont_eat(t_thread *thread)
 	nb = 0;
 	while (1)
 	{
-		if (thread[i].cont_to_eat == thread[i].number_eat)
+		if (thread[i].cont_to_eat >= thread[i].number_eat)
 			nb++;
-		if (nb == thread[i].number_of_philo - 1)
+		if (nb == thread[i].number_of_philo )
 			return (0);
 		if (i == thread[i].number_of_philo - 1)
 			break ;
@@ -55,14 +55,6 @@ void	print_data(t_thread *thread)
 	}
 	else
 		pthread_mutex_unlock(&thread->mt->mut);
-	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->mt->die == 0)
-	{
-		pthread_mutex_unlock(&thread->mt->mut);
-		print("is thinking", thread);
-	}
-	else
-		pthread_mutex_unlock(&thread->mt->mut);
 }
 
 int	check_die(t_thread *thread, char **av, int i)
@@ -72,11 +64,9 @@ int	check_die(t_thread *thread, char **av, int i)
 	pthread_mutex_lock(&thread[i].mt->mut);
 	if (calcultime() - thread[i].start_programe >= ft_atoi(av[2]))
 	{
+		thread[i].mt->die = 1;
+		printf("%lld %d died\n", calcultime() - thread[i].start_programe, i + 1);
 		pthread_mutex_unlock(&thread[i].mt->mut);
-		pthread_mutex_lock(&thread[i].mt->mut);
-			thread[i].mt->die = 1;
-		pthread_mutex_unlock(&thread[i].mt->mut);
-		printf("%lld %d die\n", calcultime() - thread[i].start_programe, i + 1);
 		return (0);
 	}
 	pthread_mutex_unlock(&thread[i].mt->mut);

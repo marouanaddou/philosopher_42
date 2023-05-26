@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:16:16 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/09 12:08:35 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/26 18:54:11 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 typedef struct mutex_s
 {
 	pthread_mutex_t	mut;
+	long long time_start;
+	pthread_mutex_t	eat;
 	int				die;
 }					t_mutex;
 
@@ -54,12 +56,12 @@ long long			calcultime(void);
 
 void				mutex_data(t_thread *thread);
 
-void				register_data(t_thread *thread, char *av[], int ac,
-						t_mutex *mt);
+int				register_data(t_thread *thread, char *av[], int ac,
+						t_mutex *mtx);//
 
 int					cont_eat(t_thread *thread);
 int					check_die(t_thread *thread, char **av, int i);
-void				time_usleep(int time);
+void	time_usleep(int time);//
 void				print_data(t_thread *thread);
 
 void				print(char *str, t_thread *thread);
