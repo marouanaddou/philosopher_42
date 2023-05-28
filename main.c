@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 17:37:35 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/28 11:19:32 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/28 16:18:42 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ int	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mtx)
 	return (1);
 }
 
+int	creat_mutex(t_thread *thread, char **av, int i, t_mutex *mtx)
+{
+	while (i < ft_atoi(av[1]))
+	{
+		if (pthread_mutex_init(&thread[i++].mutex, NULL) != 0)
+			return (1);
+	}
+	if (pthread_mutex_init(&mtx->mut, NULL) != 0)
+		return (1);
+	return (0);
+}
+
 int	main(int ac, char *av[])
 {
 	t_thread		thread[250];
@@ -72,9 +84,8 @@ int	main(int ac, char *av[])
 	{
 		if (check_arg(av, ac) == 0 || ft_atoi(av[1]) > 200)
 			return (0);
-		while (i < ft_atoi(av[1]))
-			pthread_mutex_init(&thread[i++].mutex, NULL);
-		pthread_mutex_init(&mtx.mut, NULL);
+		if (creat_mutex(thread, av, i, &mtx) != 0)
+			return (0);
 		if (creat_philosopher(thread, av, ac, &mtx) != 0)
 			return (0);
 		i = 0;
@@ -83,5 +94,8 @@ int	main(int ac, char *av[])
 			if (pthread_mutex_destroy(&thread[i++].mutex) != 0)
 				return (0);
 		}
+		if (pthread_mutex_destroy(&mtx.mut) != 0)
+			return (0);
 	}
+	return (0);
 }
