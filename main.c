@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 17:37:35 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/26 19:47:26 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/28 11:19:32 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long long	calcultime(void)
 	return (time);
 }
 
-void	*start_routine(void *philo)
+void	*routine(void *philo)
 {
 	t_thread	*thread;
 
@@ -37,7 +37,7 @@ int	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mtx)
 	int	i;
 
 	if (register_data(thread, av, ac, mtx) != 0)
-		return 0;
+		return (0);
 	i = 0;
 	while (1)
 	{
@@ -56,10 +56,7 @@ int	creat_philosopher(t_thread *thread, char *av[], int ac, t_mutex *mtx)
 		i++;
 		if (i == ft_atoi(av[1]) - 1)
 			i = 0;
-	}
-	i = 0;
-	while (i < ft_atoi(av[1]) - 1)
-		pthread_detach(thread[i++].th);	
+	}	
 	return (1);
 }
 
@@ -78,11 +75,10 @@ int	main(int ac, char *av[])
 		while (i < ft_atoi(av[1]))
 			pthread_mutex_init(&thread[i++].mutex, NULL);
 		pthread_mutex_init(&mtx.mut, NULL);
-		pthread_mutex_init(&mtx.eat, NULL);
 		if (creat_philosopher(thread, av, ac, &mtx) != 0)
 			return (0);
 		i = 0;
-		while(i < ft_atoi(av[1]))
+		while (i < ft_atoi(av[1]))
 		{
 			if (pthread_mutex_destroy(&thread[i++].mutex) != 0)
 				return (0);

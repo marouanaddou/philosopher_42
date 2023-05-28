@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 16:51:31 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/08 21:53:55 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/28 11:21:07 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 long long	ft_atoi(const char *str)
 {
-	int	i;
-	int	sign;
-	long long nb;
+	int			i;
+	int			sign;
+	long long	nb;
 
 	i = 0;
 	sign = 1;

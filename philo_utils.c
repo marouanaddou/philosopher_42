@@ -6,7 +6,7 @@
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:55:30 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/26 20:22:03 by maddou           ###   ########.fr       */
+/*   Updated: 2023/05/28 11:20:24 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	cont_eat(t_thread *thread)
 	{
 		if (thread[i].cont_to_eat >= thread[i].number_eat)
 			nb++;
-		if (nb == thread[i].number_of_philo )
+		if (nb == thread[i].number_of_philo)
 			return (0);
 		if (i == thread[i].number_of_philo - 1)
 			break ;
