@@ -5,12 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: maddou <maddou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 19:55:30 by maddou            #+#    #+#             */
-/*   Updated: 2023/05/28 11:20:24 by maddou           ###   ########.fr       */
+/*   Created: 2023/05/29 21:33:39 by maddou            #+#    #+#             */
+/*   Updated: 2023/05/29 21:57:26 by maddou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philo.h"
+
+long long	calcultime(void)
+{
+	long long		time;
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return (time);
+}
+
+int	time_usleep(int time, t_thread *thread)
+{
+	long long	start;
+
+	start = calcultime();
+	while (1)
+	{
+		pthread_mutex_lock(&thread->mtx->mut);
+		if (thread->mtx->died == 1)
+		{
+			pthread_mutex_unlock(&thread->mtx->mut);
+			return (1);
+		}
+		pthread_mutex_unlock(&thread->mtx->mut);
+		if (calcultime() - start >= time)
+			break ;
+		usleep(60);
+	}
+	return (0);
+}
 
 int	cont_eat(t_thread *thread)
 {
@@ -32,43 +63,20 @@ int	cont_eat(t_thread *thread)
 	return (1);
 }
 
-void	print(char *str, t_thread *thread)
-{
-	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->mt->die == 0)
-	{
-		printf("%lld %d %s\n", calcultime() - thread->start, thread->i, str);
-		pthread_mutex_unlock(&thread->mt->mut);
-	}
-	else
-		pthread_mutex_unlock(&thread->mt->mut);
-}
-
-void	print_data(t_thread *thread)
-{
-	pthread_mutex_lock(&thread->mt->mut);
-	if (thread->mt->die == 0)
-	{
-		pthread_mutex_unlock(&thread->mt->mut);
-		print("is sleeping", thread);
-		time_usleep(thread->time_to_sleep);
-	}
-	else
-		pthread_mutex_unlock(&thread->mt->mut);
-}
-
 int	check_die(t_thread *thread, char **av, int i)
 {
 	if (ft_atoi(av[1]) == 1)
 		i = 0;
-	pthread_mutex_lock(&thread[i].mt->mut);
+	pthread_mutex_lock(&thread[i].mtx->mut);
 	if (calcultime() - thread[i].start_programe >= ft_atoi(av[2]))
 	{
-		thread[i].mt->die = 1;
+		pthread_mutex_unlock(&thread[i].mtx->mut);
+		pthread_mutex_lock(&thread[i].mtx->mut);
+		thread[i].mtx->died = 1;
 		printf("%lld %d died\n", calcultime() - thread[i].start_programe, i + 1);
-		pthread_mutex_unlock(&thread[i].mt->mut);
+		pthread_mutex_unlock(&thread[i].mtx->mut);
 		return (0);
 	}
-	pthread_mutex_unlock(&thread[i].mt->mut);
+	pthread_mutex_unlock(&thread[i].mtx->mut);
 	return (1);
 }
